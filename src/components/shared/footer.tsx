@@ -63,17 +63,29 @@ export function Footer() {
   if (recipe.footer === 'minimal-footer') {
     return (
       <footer className="border-t border-[#d7deca] bg-[#f4f6ef] text-[#1f2617]">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-4 py-8 sm:px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[1.2fr_0.7fr_1.1fr] lg:px-8">
           <div>
             <p className="text-lg font-semibold">{SITE_CONFIG.name}</p>
             <p className="mt-1 text-sm text-[#56604b]">{SITE_CONFIG.description}</p>
           </div>
-          <div className="flex flex-wrap gap-3">
-            {enabledTasks.slice(0, 5).map((task) => (
-              <Link key={task.key} href={task.route} className="rounded-lg border border-[#d7deca] bg-white px-3 py-2 text-sm font-medium text-[#1f2617] hover:bg-[#ebefdf]">
-                {task.label}
-              </Link>
-            ))}
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#56604b]">Company</p>
+            <div className="mt-3 flex flex-col gap-2 text-sm">
+              <Link href="/about" className="text-[#1f2617] hover:text-[#0C2B4E] hover:underline">About Us</Link>
+              <Link href="/contact" className="text-[#1f2617] hover:text-[#0C2B4E] hover:underline">Contact Us</Link>
+            </div>
+          </div>
+
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#56604b]">Explore</p>
+            <div className="mt-3 flex flex-wrap gap-3">
+              {enabledTasks.slice(0, 5).map((task) => (
+                <Link key={task.key} href={task.route} className="rounded-lg border border-[#d7deca] bg-white px-3 py-2 text-sm font-medium text-[#1f2617] hover:bg-[#ebefdf]">
+                  {task.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       </footer>
