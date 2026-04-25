@@ -2,69 +2,69 @@ import type { TaskKey } from '@/lib/site-config'
 
 export const siteContent = {
   navbar: {
-    tagline: 'Independent reading platform',
+    tagline: 'Premium PDF + Social Profile',
   },
   footer: {
-    tagline: 'Stories, resources, and discoverable posts',
+    tagline: 'Documents, profiles, and connected discovery',
   },
   hero: {
-    badge: 'Latest stories and visuals',
-    title: ['A thoughtful home for', 'stories, visuals, and discovery.'],
+    badge: 'PDF + Social Profile',
+    title: ['A premium home for', 'documents, profiles, and discovery.'],
     description:
-      'Explore fresh articles, image-led posts, and discoverable content across the platform through a calmer and clearer browsing experience.',
+      'Explore polished PDF resources and social profile pages through a premium, utility-led interface.',
     primaryCta: {
-      label: 'Read latest stories',
-      href: '/articles',
+      label: 'Open PDF library',
+      href: '/pdf',
     },
     secondaryCta: {
-      label: 'Explore visuals',
-      href: '/images',
+      label: 'Explore profiles',
+      href: '/profile',
     },
-    searchPlaceholder: 'Search stories, visuals, listings, and more',
+    searchPlaceholder: 'Search PDFs, profiles, and all available tools',
     focusLabel: 'Focus',
     featureCardBadge: 'latest cover rotation',
-    featureCardTitle: 'Latest posts shape the visual identity of the homepage.',
+    featureCardTitle: 'PDF and profile lanes now shape the homepage identity.',
     featureCardDescription:
-      'Recent images and stories stay at the center of the experience without changing any core platform behavior.',
+      'Primary and secondary task lanes stay centered while all other tasks remain available in lower-priority surfaces.',
   },
   home: {
     metadata: {
-      title: 'Stories, visuals, and discoverable content',
+      title: 'Premium PDF and Social Profile platform',
       description:
-        'Explore articles, images, listings, and curated posts through a cleaner reading-first experience.',
-      openGraphTitle: 'Stories, visuals, and discoverable content',
+        'Use a premium utility-first experience focused on PDF resources and social profiles.',
+      openGraphTitle: 'Premium PDF and Social Profile platform',
       openGraphDescription:
-        'Discover articles, visual posts, and connected content through a calmer reading-first experience.',
-      keywords: ['story platform', 'article site', 'visual content', 'content discovery'],
+        'Discover PDF resources and profile pages through a focused, high-clarity interface.',
+      keywords: ['pdf library', 'social profile', 'document platform', 'profile discovery'],
     },
     introBadge: 'About the platform',
-    introTitle: 'Built for reading, browsing, and connecting different kinds of content.',
+    introTitle: 'Built for document publishing and profile-led social discovery.',
     introParagraphs: [
-      'This site brings together article-style reading, visual browsing, and structured discovery so visitors can move naturally between different content types.',
-      'Instead of separating stories, visuals, and supporting resources into disconnected surfaces, the platform keeps them connected in one place with consistent navigation and easier exploration.',
-      'Whether someone starts with a story, an image-led post, a listing, or a resource page, they can keep discovering related content without friction.',
+      'This site puts PDF resources and profile visibility first, with a cleaner utility rhythm for faster actions.',
+      'Secondary tasks remain fully available in lower-priority surfaces like search, footer links, and submenu lists.',
+      'Visitors can move from a document to profile context without leaving the core workflow.',
     ],
     sideBadge: 'At a glance',
     sidePoints: [
-      'Reading-first homepage with stronger emphasis on stories and imagery.',
-      'Connected sections for articles, visuals, listings, and supporting resources.',
-      'Cleaner browsing rhythm designed to make exploration feel easier.',
-      'Lightweight interactions that keep the experience fast and readable.',
+      'Priority focus on PDF and Social Profile tasks.',
+      'Left-side navigation with rapid access patterns.',
+      'Distinct layout rhythms for utility, social, and editorial surfaces.',
+      'Lightweight transitions and tokenized styling for performance.',
     ],
     primaryLink: {
-      label: 'Browse articles',
-      href: '/articles',
+      label: 'Browse PDFs',
+      href: '/pdf',
     },
     secondaryLink: {
-      label: 'See visuals',
-      href: '/images',
+      label: 'View Profiles',
+      href: '/profile',
     },
   },
   cta: {
     badge: 'Start exploring',
-    title: 'Explore articles, visuals, and resources through one connected experience.',
+    title: 'Publish PDFs and profiles through one connected premium experience.',
     description:
-      'Move between articles, image-led posts, listings, and resources through one clearer and more connected visual system.',
+      'Move between structured documents, profile surfaces, and related tools through one polished visual system.',
     primaryCta: {
       label: 'Get Started Free',
       href: '/register',
