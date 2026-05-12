@@ -59,7 +59,6 @@ export function NavbarOverride() {
             <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="40" height="40" className="h-10 w-10 rounded-xl border border-[rgba(12,43,78,0.14)] bg-[#f4f7fb] p-1" />
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#1A3D64]">{SITE_CONFIG.name}</p>
-              <p className="text-xs text-[#1D546C]">PDF + Social Profile</p>
             </div>
           </div>
         </Link>
@@ -149,7 +148,6 @@ export function NavbarOverride() {
             <img src="/favicon.png?v=20260401" alt={`${SITE_CONFIG.name} logo`} width="36" height="36" className="h-9 w-9 rounded-lg border border-[rgba(12,43,78,0.14)] bg-white p-1" />
             <div>
               <p className="text-sm font-semibold text-[#0C2B4E]">{SITE_CONFIG.name}</p>
-              <p className="text-[11px] uppercase tracking-[0.16em] text-[#1D546C]">PDF + Social</p>
             </div>
           </Link>
           <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen((value) => !value)} className="text-[#0C2B4E] hover:bg-[#e5edf8]">

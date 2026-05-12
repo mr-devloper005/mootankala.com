@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { ArrowRight, FileText } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { SchemaJsonLd } from '@/components/seo/schema-jsonld'
 import { TaskPostCard } from '@/components/shared/task-post-card'
 import { NavbarShell } from '@/components/shared/navbar-shell'
@@ -11,19 +11,14 @@ export const HOME_PAGE_OVERRIDE_ENABLED = true
 
 export async function HomePageOverride() {
   const pdfTask = SITE_CONFIG.tasks.find((task) => task.enabled && task.key === 'pdf')
-  const profileTask =
-    SITE_CONFIG.tasks.find((task) => task.enabled && task.key === 'profile') ||
-    SITE_CONFIG.tasks.find((task) => task.enabled && task.key === 'social')
 
   const secondaryTasks = SITE_CONFIG.tasks.filter(
-    (task) => task.enabled && task.key !== pdfTask?.key && task.key !== profileTask?.key
+    (task) => task.enabled && task.key !== pdfTask?.key
   )
 
-  const [pdfPosts, profilePosts, articlePosts] = await Promise.all([
-    pdfTask ? fetchTaskPosts('pdf', 6, { allowMockFallback: true, fresh: true }) : Promise.resolve([]),
-    profileTask ? fetchTaskPosts(profileTask.key, 6, { allowMockFallback: true, fresh: true }) : Promise.resolve([]),
-    fetchTaskPosts('article', 3, { allowMockFallback: true, fresh: true }).catch(() => []),
-  ])
+  const pdfPosts = pdfTask
+    ? await fetchTaskPosts('pdf', 6, { allowMockFallback: true, fresh: true })
+    : []
 
   const schemaData = [
     {
@@ -53,26 +48,17 @@ export async function HomePageOverride() {
         <SchemaJsonLd data={schemaData} />
         <section className="mx-auto max-w-7xl px-4 pb-10 pt-8 sm:px-6 lg:px-10 lg:pt-14">
           <div className="rounded-[2rem] border border-[rgba(12,43,78,0.14)] bg-white p-7 shadow-[0_22px_62px_rgba(12,43,78,0.09)] sm:p-10">
-            <p className="inline-flex items-center gap-2 rounded-full bg-[#0C2B4E] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#F4F4F4]">
-              <FileText className="h-3.5 w-3.5" />
-              Premium workflow
-            </p>
-            <h1 className="mt-6 max-w-4xl text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
-              Deliver polished PDF resources and strong social profiles from one focused workspace.
+            <h1 className="max-w-4xl text-4xl font-semibold tracking-[-0.04em] sm:text-5xl">
+              Deliver polished PDF resources from one focused workspace.
             </h1>
             <p className="mt-5 max-w-2xl text-sm leading-8 text-[#1D546C]">
-              The experience is built around two clear lanes: structured document publishing and profile-first social presence.
+              A clean, utility-first experience built specifically for PDF document publishing and discovery.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               {pdfTask ? (
                 <Link href={pdfTask.route} className="inline-flex items-center gap-2 rounded-xl bg-[#0C2B4E] px-5 py-3 text-sm font-semibold text-[#F4F4F4] transition hover:bg-[#1A3D64]">
                   Open PDF lane
                   <ArrowRight className="h-4 w-4" />
-                </Link>
-              ) : null}
-              {profileTask ? (
-                <Link href={profileTask.route} className="inline-flex items-center gap-2 rounded-xl border border-[rgba(12,43,78,0.18)] bg-[#f2f6fc] px-5 py-3 text-sm font-semibold text-[#1A3D64] transition hover:bg-[#e8f0fa]">
-                  Open Social Profile lane
                 </Link>
               ) : null}
             </div>
@@ -94,38 +80,6 @@ export async function HomePageOverride() {
             {pdfPosts.slice(0, 6).map((post) => (
               <TaskPostCard key={post.id} post={post} href={`${pdfTask.route}/${post.slug}`} taskKey="pdf" />
             ))}
-          </div>
-          </section>
-        ) : null}
-
-        {profileTask ? (
-          <section className="mx-auto max-w-7xl px-4 pb-12 pt-4 sm:px-6 lg:px-10">
-          <div className="mb-6 flex items-end justify-between gap-4 border-b border-[rgba(12,43,78,0.18)] pb-5">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#1D546C]">Secondary lane</p>
-              <h2 className="mt-2 text-3xl font-semibold text-[#0C2B4E]">Social Profile Surface</h2>
-            </div>
-            <Link href={profileTask.route} className="text-sm font-semibold text-[#1A3D64] hover:text-[#0C2B4E]">
-              View all profiles
-            </Link>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
-            {profilePosts.slice(0, 6).map((post) => (
-              <TaskPostCard key={post.id} post={post} href={`${profileTask.route}/${post.slug}`} taskKey={profileTask.key} />
-            ))}
-          </div>
-          </section>
-        ) : null}
-
-        {articlePosts.length ? (
-          <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-10">
-          <div className="rounded-[2rem] border border-[rgba(12,43,78,0.14)] bg-[rgba(255,255,255,0.7)] p-6 sm:p-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#1D546C]">Low-emphasis editorial shelf</p>
-            <div className="mt-5 grid gap-5 lg:grid-cols-3">
-              {articlePosts.map((post) => (
-                <TaskPostCard key={post.id} post={post} href={`/articles/${post.slug}`} taskKey="article" compact />
-              ))}
-            </div>
           </div>
           </section>
         ) : null}
