@@ -1,85 +1,98 @@
-import { NextResponse } from 'next/server'
-import { z } from 'zod'
+import { NextResponse } from 'next/server';
 
-const bodySchema = z.object({
-  name: z.string().trim().min(1, 'Name is required').max(200),
-  email: z.string().trim().email('Valid email is required').max(320),
-  subject: z.string().trim().max(200).optional().default(''),
-  message: z.string().trim().min(10, 'Message must be at least 10 characters').max(10000),
-  phone: z.string().trim().max(80).optional().default(''),
-  honeypot: z.string().trim().max(1).optional().default(''),
-})
+const FALLBACK_SITE_CODE = '9xo1in07t2';
+const FALLBACK_SITE_URL = 'https://mootankala.com';
+const FALLBACK_SITE_NAME = 'Mootankala';
+
+const trimString = (value: unknown) => (typeof value === 'string' ? value.trim() : '');
 
 const getMasterContactUrl = () => {
-  const baseUrl =
+  const baseUrl = (
     process.env.NEXT_PUBLIC_MASTER_API_URL ||
     process.env.NEXT_PUBLIC_MASTER_API_BASE_URL ||
-    process.env.NEXT_PUBLIC_MASTER_PANEL_URL
-  const siteCode = process.env.NEXT_PUBLIC_SITE_CODE || '9xo1in07t2'
+    process.env.NEXT_PUBLIC_MASTER_PANEL_URL ||
+    'https://masterpanel.seoparadox.com'
+  ).replace(/\/$/, '');
+  const siteCode = process.env.NEXT_PUBLIC_SITE_CODE || FALLBACK_SITE_CODE;
 
-  if (!baseUrl || !siteCode) return null
-  return `${baseUrl.replace(/\/$/, '')}/api/v1/public/${siteCode}/contact`
-}
+  if (!siteCode || siteCode === 'your_site_code') {
+    return null;
+  }
+
+  return `${baseUrl}/api/v1/public/${siteCode}/contact`;
+};
 
 export async function POST(request: Request) {
-  let json: unknown
+  let payload: Record<string, unknown>;
+
   try {
-    json = await request.json()
+    payload = await request.json();
   } catch {
-    return NextResponse.json({ ok: false, error: 'Invalid JSON' }, { status: 400 })
+    return NextResponse.json({ ok: false, message: 'Invalid request body.' }, { status: 400 });
   }
 
-  const parsed = bodySchema.safeParse(json)
-  if (!parsed.success) {
-    const errors = parsed.error.flatten().fieldErrors
-    const message =
-      errors.name?.[0] || errors.email?.[0] || errors.subject?.[0] || errors.message?.[0] || 'Invalid input'
-    return NextResponse.json({ ok: false, error: message }, { status: 400 })
+  const honeypot = trimString(payload.company);
+  if (honeypot) {
+    return NextResponse.json({ ok: true });
   }
 
-  if (parsed.data.honeypot) {
-    return NextResponse.json({ ok: false, error: 'Invalid contact request' }, { status: 400 })
+  const name = trimString(payload.name);
+  const email = trimString(payload.email).toLowerCase();
+  const phone = trimString(payload.phone);
+  const subject = trimString(payload.subject) || `New contact request from ${FALLBACK_SITE_NAME}`;
+  const message = trimString(payload.message);
+
+  if (!name || !email || !message) {
+    return NextResponse.json(
+      { ok: false, message: 'Name, email, and message are required.' },
+      { status: 400 },
+    );
   }
 
-  const targetUrl = getMasterContactUrl()
-  if (!targetUrl) {
-    return NextResponse.json({ ok: false, error: 'Contact endpoint is not configured' }, { status: 500 })
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    return NextResponse.json({ ok: false, message: 'Please enter a valid email address.' }, { status: 400 });
   }
 
-  const sourceUrl = request.headers.get('referer') || process.env.NEXT_PUBLIC_SITE_URL || 'https://mootankala.com/contact'
+  const masterContactUrl = getMasterContactUrl();
+  if (!masterContactUrl) {
+    return NextResponse.json(
+      { ok: false, message: 'Contact form is not configured for this site.' },
+      { status: 500 },
+    );
+  }
+
+  const sourceUrl = request.headers.get('referer') || `${FALLBACK_SITE_URL}/contact`;
 
   try {
-    const response = await fetch(targetUrl, {
+    const response = await fetch(masterContactUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: parsed.data.name,
-        email: parsed.data.email,
-        phone: parsed.data.phone,
-        subject: parsed.data.subject || 'Mootankala contact request',
-        message: parsed.data.message,
+        name,
+        email,
+        phone,
+        subject,
+        message,
         sourceUrl,
-        meta: {
-          site: 'mootankala.com',
-          form: 'contact-page',
-        },
+        meta: { siteName: FALLBACK_SITE_NAME, siteUrl: FALLBACK_SITE_URL, form: 'contact-page' },
       }),
       cache: 'no-store',
-    })
+    });
 
-    const result = await response.json().catch(() => ({}))
-    if (!response.ok || result?.success === false) {
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
       return NextResponse.json(
-        { ok: false, error: result?.message || result?.error || 'Could not submit your message' },
-        { status: response.status || 502 },
-      )
+        { ok: false, message: data?.message || 'Unable to submit the contact request.' },
+        { status: response.status },
+      );
     }
 
-    return NextResponse.json({ ok: true, data: result?.data || null })
-  } catch {
+    return NextResponse.json({ ok: true, message: 'Thanks. Your message has been received.' });
+  } catch (error) {
+    console.error('Contact submit failed', error);
     return NextResponse.json(
-      { ok: false, error: 'We could not send your message right now. Please try again shortly.' },
+      { ok: false, message: 'Contact service is temporarily unavailable.' },
       { status: 502 },
-    )
+    );
   }
 }
