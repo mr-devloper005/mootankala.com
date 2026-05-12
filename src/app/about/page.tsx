@@ -5,33 +5,27 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { SITE_CONFIG } from "@/lib/site-config";
 
-const highlights = [
-  { label: "PDF resources published", value: "2,400+" },
-  { label: "Public profiles created", value: "900+" },
-  { label: "Monthly active readers", value: "35k+" },
-];
-
 const values = [
   { title: "Document-first publishing", description: "We help teams publish useful PDFs with clear structure and fast access." },
-  { title: "Profile-led trust", description: "Every contributor and brand can build a reliable public profile with context." },
-  { title: "Simple discovery", description: "Users can move from documents to people quickly without friction." },
+  { title: "Simple discovery", description: "Users can find and access documents quickly without friction." },
+  { title: "Focused experience", description: "A clean, utility-first platform built specifically for PDF resources." },
 ];
 
 const companySections = [
   {
     title: "What Mootankala Does",
     description:
-      "Mootankala is a focused PDF + Social Profile platform where organizations publish resources and build trusted profile presence in one place.",
+      "Mootankala is a focused PDF publishing platform where organizations share resources and documents in a clean, accessible format.",
   },
   {
     title: "Who It Is For",
     description:
-      "Built for agencies, creators, consultants, and teams that want documents and profile identity to work together as a single experience.",
+      "Built for agencies, creators, consultants, and teams that want a simple, effective way to publish and share PDF resources.",
   },
   {
     title: "Our Product Direction",
     description:
-      "Keep the experience utility-first, mobile-ready, and fast while preserving a clear visual priority for PDF and profile workflows.",
+      "Keep the experience utility-first, mobile-ready, and fast with a clear visual priority for PDF document workflows.",
   },
 ];
 
@@ -39,7 +33,7 @@ export default function AboutPage() {
   return (
     <PageShell
       title={`About Us - ${SITE_CONFIG.name}`}
-      description={`${SITE_CONFIG.name} is a focused PDF + Social Profile platform for teams, creators, and businesses.`}
+      description={`${SITE_CONFIG.name} is a focused PDF publishing platform for teams, creators, and businesses.`}
       actions={
         <>
           <Button asChild>
@@ -56,19 +50,11 @@ export default function AboutPage() {
           <CardContent className="space-y-4 p-6">
             <Badge variant="secondary">Our Story</Badge>
             <h2 className="text-2xl font-semibold text-foreground">
-              A single home for documents, profiles, and discoverable expertise.
+              A single home for documents and discoverable expertise.
             </h2>
             <p className="text-sm text-muted-foreground">
-              {SITE_CONFIG.name} brings together PDF publishing and profile identity so businesses and creators can share useful knowledge with confidence.
+              {SITE_CONFIG.name} provides a focused PDF publishing platform so businesses and creators can share useful knowledge with confidence.
             </p>
-            <div className="grid gap-4 sm:grid-cols-3">
-              {highlights.map((item) => (
-                <div key={item.label} className="rounded-lg border border-border bg-secondary/40 p-4">
-                  <div className="text-2xl font-semibold text-foreground">{item.value}</div>
-                  <div className="text-xs text-muted-foreground">{item.label}</div>
-                </div>
-              ))}
-            </div>
           </CardContent>
         </Card>
         <div className="space-y-4">

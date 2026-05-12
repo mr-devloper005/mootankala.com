@@ -9,7 +9,7 @@ export const SITE_THEME = defineSiteTheme({
   home: {
     layout: 'studio-showcase',
     primaryTask: 'pdf',
-    featuredTaskKeys: ['pdf', 'profile', 'article'],
+    featuredTaskKeys: ['pdf', 'article'],
   },
   navigation: {
     variant: 'minimal',

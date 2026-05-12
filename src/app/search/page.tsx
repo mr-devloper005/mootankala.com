@@ -2,6 +2,7 @@ import { PageShell } from "@/components/shared/page-shell";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from "lucide-react";
+import { CategoryFilter } from "@/components/shared/category-filter";
 import { fetchSiteFeed } from "@/lib/site-connector";
 import { buildPostUrl, getPostTaskKey } from "@/lib/task-data";
 import { getMockPostsForTask } from "@/lib/mock-posts";
@@ -79,23 +80,26 @@ export default async function SearchPage({
           : "Browse the latest posts across every task."
       }
       actions={
-        <form action="/search" className="flex w-full gap-2 sm:w-auto">
-          <input type="hidden" name="master" value="1" />
-          {category ? <input type="hidden" name="category" value={category} /> : null}
-          {task ? <input type="hidden" name="task" value={task} /> : null}
-          <div className="relative w-full sm:w-80">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              name="q"
-              defaultValue={query}
-              placeholder="Search across tasks..."
-              className="h-11 pl-9"
-            />
-          </div>
-          <Button type="submit" className="h-11">
-            Search
-          </Button>
-        </form>
+        <div className="flex flex-col gap-4">
+          <form action="/search" className="flex w-full gap-2 sm:w-auto">
+            <input type="hidden" name="master" value="1" />
+            {category ? <input type="hidden" name="category" value={category} /> : null}
+            {task ? <input type="hidden" name="task" value={task} /> : null}
+            <div className="relative w-full sm:w-80">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                name="q"
+                defaultValue={query}
+                placeholder="Search PDFs..."
+                className="h-11 pl-9"
+              />
+            </div>
+            <Button type="submit" className="h-11">
+              Search
+            </Button>
+          </form>
+          <CategoryFilter />
+        </div>
       }
     >
       {results.length ? (
