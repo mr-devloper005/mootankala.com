@@ -142,6 +142,17 @@ export default async function ProfileDetailPage({ params }: { params: Promise<{ 
             {/* Brand Info */}
             <div className="mt-4 text-center">
               <h1 className="text-xl font-bold text-foreground">{brandName}</h1>
+              {domain && (
+                <a
+                  href={website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
+                >
+                  <Globe className="h-3.5 w-3.5" />
+                  {domain}
+                </a>
+              )}
               <p className="mt-1 text-sm text-muted-foreground">No reviews</p>
             </div>
 
